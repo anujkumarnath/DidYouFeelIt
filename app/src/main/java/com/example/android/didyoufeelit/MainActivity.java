@@ -54,13 +54,17 @@ public class MainActivity extends AppCompatActivity {
 
     private class BackgroundTask extends AsyncTask<String, Void, Event> {
         @Override
-        protected Event doInBackground(String... url) {
+        protected Event doInBackground(String... urls) {
             // Perform the HTTP request for earthquake data and process the response.
-            return Utils.fetchEarthquakeData(url[0]);
+            if (urls.length < 1 || urls[0] == null)
+                return null;
+            return Utils.fetchEarthquakeData(urls[0]);
         }
 
         @Override
         protected void onPostExecute(Event result) {
+            if (result == null)
+                return;
             // Update the information displayed to the user.
             updateUi(result);
         }
